@@ -3,6 +3,8 @@ package com.example.TeleMedicine.UserLogin;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +12,28 @@ import org.springframework.stereotype.Service;
 public class UserLoginService {
 	@Autowired
 	private UserLoginRepository userLoginRepository;
-
-	public Map<String, Object> login(LoginPojo loginPojo) {
-		Map<String, Object> login = new HashMap<>();
+	private static final Logger logger=LoggerFactory.getLogger(UserLoginService.class);
+	
+	public Map<String,Object> login(LoginPojo loginPojo) {
+		Map<String,Object> m=new HashMap<>();
 		try {
-			int userCount = userLoginRepository.login(loginPojo);
-			if (userCount == 1) {
-				login.put("message", "User Exists");
-				login.put("flag", true);
-				login.put("status", 1);
-				return login;
-			} else {
-				login.put("message", "Invalid User Credentials");
-				login.put("flag", true);
-				login.put("status", 0);
+			Map<String,Object> profile=userLoginRepository.login(loginPojo);
+			if((boolean)profile.get("flag")==true) {
+				m.put("message",profile);
+				m.put("flag", true);
+				m.put("status", 1);
+				logger.debug(loginPojo.getUsername()+" logged in successful");
+				return m;
 			}
-
-		} catch (Exception e) {
+			m.put("message","Invalid User Credentials");
+			m.put("flag", true);
+			m.put("status", 0);
+		}catch(Exception e){
 			e.printStackTrace();
-			login.put("message", "Error while login");
-			login.put("flag", false);
-			login.put("status", 0);
+			m.put("message","Error while login");
+			m.put("flag", false);
+			m.put("status", 0);
 		}
-		return login;
+		return m;
 	}
 }

@@ -32,10 +32,11 @@ public class DoctorProfileService {
 		return m;
 	}
 
-	public synchronized Map<String, Object> profileUpdate(Map<String,Object> profile) {
+	public synchronized Map<String, Object> profileUpdate(Map<String, Object> profile) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", doctorProfileRepository.profileUpdate(profile));
+			doctorProfileRepository.profileUpdate(profile);
+			m.put("status", 1);
 			m.put("flag", true);
 			m.put("message", "Profile Updated Successfully");
 			logger.debug(profile.get("id") + " updation successfull");
@@ -44,7 +45,7 @@ public class DoctorProfileService {
 			m.put("flag", false);
 			m.put("message", "Error, while updating profile");
 			m.put("status", 0);
-			logger.debug(profile.get("id")+ " updation failed");
+			logger.debug(profile.get("id") + " updation failed");
 		}
 		return m;
 	}
@@ -98,13 +99,14 @@ public class DoctorProfileService {
 		}
 		return m;
 	}
-	
-	public synchronized Map<String, Object> timeChangeForDate(Map<String,Object> change) {
+
+	public synchronized Map<String, Object> timeChangeForDate(Map<String, Object> change) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", doctorProfileRepository.timeChangeForDate(change));
+			doctorProfileRepository.timeChangeForDate(change);
+			m.put("status", 1);
 			m.put("flag", true);
-			m.put("message","Timings changed successfully");
+			m.put("message", "Timings changed successfully");
 		} catch (Exception e) {
 			e.printStackTrace();
 			m.put("flag", false);
@@ -113,13 +115,14 @@ public class DoctorProfileService {
 		}
 		return m;
 	}
-	
-	public synchronized Map<String, Object> doctorHolidays(Map<String,Object> holidays) {
+
+	public synchronized Map<String, Object> doctorHolidays(Map<String, Object> holidays) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", doctorProfileRepository.doctorHolidays(holidays));
+			doctorProfileRepository.doctorHolidays(holidays);
+			m.put("status", 1);
 			m.put("flag", true);
-			m.put("message","Doctor applied holidays successful");
+			m.put("message", "Doctor applied holidays successful");
 		} catch (Exception e) {
 			e.printStackTrace();
 			m.put("flag", false);

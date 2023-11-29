@@ -12,7 +12,7 @@ public class UserLoginController {
 	@Autowired
 	private UserLoginService userLoginService;
 	
-	@PostMapping("/login")
+	@PostMapping("/userlogin")
 	public Map<String,Object> login(@RequestBody LoginPojo loginPojo) {
 		return userLoginService.login(loginPojo);
 	}

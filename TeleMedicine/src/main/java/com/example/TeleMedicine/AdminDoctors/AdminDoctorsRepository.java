@@ -134,6 +134,7 @@ public class AdminDoctorsRepository {
 		return rowsUp;
 	}
 
+	@Transactional(rollbackFor = Throwable.class)
 	public int addSpecialization(int doctorId, int[] specialization) {
 		if (specialization.length > 0) {
 			String deptsQuery = "INSERT INTO telemedicine_doctors.tbl_doctor_specializations(DOCTOR_ID,SPECIALIZATION_ID) VALUES (?, ?)";
@@ -162,6 +163,7 @@ public class AdminDoctorsRepository {
 		return specialization.length;
 	}
 
+	@Transactional(rollbackFor = Throwable.class)
 	public int profileInactivate(int doctorId) {
 		String query = "Update telemedicine_doctors.tbl_doctor_registration set status=1002 where doctor_id=?";
 		int rowUp = jdbcTemplate.update(query, new Object[] { doctorId });
@@ -171,6 +173,7 @@ public class AdminDoctorsRepository {
 		return rowUp;
 	}
 
+	@Transactional(rollbackFor = Throwable.class)
 	public int profileActivate(int doctorId) {
 		String query = "Update telemedicine_doctors.tbl_doctor_registration set status=1001 where doctor_id=?";
 		int rowUp = jdbcTemplate.update(query, new Object[] { doctorId });

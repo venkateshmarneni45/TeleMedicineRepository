@@ -18,7 +18,7 @@ public class PatientCategoriesRepository {
 		StringBuffer query = new StringBuffer();
 		query.append(
                 " select a.doctor_id,a.name doctor_name,if(a.img_path=null,null,concat('/TeleMedicineDocuments/DoctorPics/',a.img_path)) img,d.gender_name gender,a.experience,a.cost,c.dept_name, ");
-        query.append(" count(distinct(b.patient_id)) patients,e.about,group_concat(g.shortname) specializations ");
+        query.append(" count(distinct(b.patient_id)) patients,e.about,group_concat(distinct(g.shortname)) specializations ");
         query.append(" from telemedicine_doctors.tbl_doctor_registration a ");
         query.append(" left join telemedicine_master.tbl_appointments b on a.doctor_id=b.doctor_id and b.status in ('A','C','RS')");
         query.append(" left join telemedicine_master.tbl_medical_departments c on a.dept_id=c.dept_id ");
