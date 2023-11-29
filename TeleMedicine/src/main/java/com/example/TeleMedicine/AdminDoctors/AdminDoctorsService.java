@@ -14,7 +14,7 @@ public class AdminDoctorsService {
 	private AdminDoctorsRepository adminDoctorsRepository;
 	private Logger logger = LoggerFactory.getLogger(AdminDoctorsService.class);
 
-	public synchronized Map<String, Object> getDoctorsList(Map<String,Object> list) {
+	public synchronized Map<String, Object> getDoctorsList(Map<String, Object> list) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
 			m.put("message", adminDoctorsRepository.getDoctorsList(list));
@@ -46,7 +46,7 @@ public class AdminDoctorsService {
 		return m;
 	}
 
-	public synchronized Map<String, Object> profileUpdate(Map<String,Object> doctorProfile) {
+	public synchronized Map<String, Object> profileUpdate(Map<String, Object> doctorProfile) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
 			m.put("status", adminDoctorsRepository.profileUpdate(doctorProfile));
@@ -66,7 +66,8 @@ public class AdminDoctorsService {
 	public synchronized Map<String, Object> addSpecialization(int doctorId, int[] specialization) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", adminDoctorsRepository.addSpecialization(doctorId, specialization));
+			adminDoctorsRepository.addSpecialization(doctorId, specialization);
+			m.put("status", 1);
 			m.put("message", "Specialization added to doctor");
 			m.put("flag", true);
 		} catch (Exception e) {
@@ -78,7 +79,7 @@ public class AdminDoctorsService {
 		}
 		return m;
 	}
-	
+
 	public synchronized Map<String, Object> profileInactivate(int doctorId) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
@@ -94,7 +95,7 @@ public class AdminDoctorsService {
 		}
 		return m;
 	}
-	
+
 	public synchronized Map<String, Object> profileActivate(int doctorId) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
@@ -110,13 +111,12 @@ public class AdminDoctorsService {
 		}
 		return m;
 	}
-	
 
 	public synchronized Map<String, Object> profileStatus(int doctorId) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", adminDoctorsRepository.profileStatus(doctorId));
-			m.put("message", "Doctor status fetched successfull");
+			m.put("status", 1);
+			m.put("message", adminDoctorsRepository.profileStatus(doctorId));
 			m.put("flag", true);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -33,8 +33,9 @@ public class PatientRegisterRepository {
 	public Map<String, Object> otpRequest(String mobile) throws ParseException {
 		Map<String, Object> m = new HashMap<>();
 		if (mobile.length() == 10) {
-			int rowCount = jdbcTemplate
-					.queryForObject("SELECT COUNT(*) FROM telemedicine_patients.tbl_patient_registration WHERE MOBILE=" + mobile, Integer.class);
+			int rowCount = jdbcTemplate.queryForObject(
+					"SELECT COUNT(*) FROM telemedicine_patients.tbl_patient_registration WHERE MOBILE=" + mobile,
+					Integer.class);
 			if (rowCount == 0) {
 				StringBuffer otp = new StringBuffer();
 				Random random = new Random();
@@ -42,13 +43,14 @@ public class PatientRegisterRepository {
 					otp.append(String.valueOf(random.nextInt(9)));
 				}
 				logger.debug("Registration OTP for " + mobile + " is " + otp);
-				int otpUp = jdbcTemplate.update("INSERT INTO telemedicine_patients.tbl_patient_registration_otp(MOBILE,OTP) values(?,?)",
+				int otpUp = jdbcTemplate.update(
+						"INSERT INTO telemedicine_patients.tbl_patient_registration_otp(MOBILE,OTP) values(?,?)",
 						new Object[] { mobile, otp });
 				if (otpUp != 1) {
 					throw new RuntimeException("Error inserting registration otp");
 				}
 				logger.debug(mobile + " Register OTP inserted to database at " + LocalDateTime.now());
-				m = smsService.send(otp.toString(), mobile,"PatientRegister");
+				m = smsService.send(otp.toString(), mobile, "PatientRegister");
 				m.put("otp", otp.toString());
 			} else {
 				m.put("status", 0);
@@ -89,9 +91,9 @@ public class PatientRegisterRepository {
 			throw new RuntimeException("Failed to register patient");
 		}
 		int patientId = patientKeyHolder.getKey().intValue();
-		
-		int[] medicalHistory=register.getMedicalHistory();
-		
+
+		int[] medicalHistory = register.getMedicalHistory();
+
 		if (medicalHistory.length > 0) {
 			String medicalHistoryQuery = "INSERT INTO telemedicine_patients.tbl_patient_medical_history(PATIENT_ID, COMPLAINT_ID) VALUES (?, ?)";
 

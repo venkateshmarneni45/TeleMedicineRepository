@@ -17,13 +17,13 @@ public class PatientAppointmentService {
 	public synchronized Map<String, Object> bookAppointment(Map<String, Object> book) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			int status=appointmentRepository.bookAppointment(book);
-			if(status==0) {
-				m.put("status",0);
+			int status = appointmentRepository.bookAppointment(book);
+			if (status == 0) {
+				m.put("status", 0);
 				m.put("message", "Doctor is Inactive");
 				m.put("flag", false);
-			}else {
-				m.put("status", appointmentRepository.bookAppointment(book));
+			} else {
+				m.put("status", 1);
 				m.put("message", "Appointment booked");
 				m.put("flag", true);
 				logger.error(book.get("id") + " Appointment booking success");
@@ -86,11 +86,11 @@ public class PatientAppointmentService {
 		}
 		return m;
 	}
-	
-	public synchronized Map<String, Object> fetchBookingTimes(int doctorId,String from,String to) {
+
+	public synchronized Map<String, Object> fetchBookingTimes(int doctorId, String from, String to) {
 		Map<String, Object> m = new LinkedHashMap<>();
 		try {
-			m.put("status", appointmentRepository.fetchBookingTimes(doctorId,from,to));
+			m.put("status", appointmentRepository.fetchBookingTimes(doctorId, from, to));
 			m.put("flag", true);
 			m.put("message", "Booking Timings fetched successfull");
 		} catch (Exception e) {
